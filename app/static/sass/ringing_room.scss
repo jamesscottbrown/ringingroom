@@ -131,6 +131,13 @@ input[type=range]::slider-thumb {
   font-size: larger;
 }
 
+#user_assigned_bells {
+    max-width: 50%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
 .list-group-item {
     margin-top: 0;
 }
@@ -167,6 +174,14 @@ input[type=range]::slider-thumb {
 
 /* Bells */ 
 
+.bell_circle_col {
+    z-index: 2;
+}
+
+.bell_circle_col.background{
+    z-index:-1;
+}
+
 .bell {
     padding: 0;
     white-space: nowrap;
@@ -191,12 +206,18 @@ input[type=range]::slider-thumb {
 .unclickable_div {
     pointer-events: none;
 }
+
+.clickable_div{
+    pointer-events: auto;
+}
+
 .clickable {
     cursor: pointer;
     pointer-events: auto;
 }
 
 .btn_number, .btn_unassign {
+    z-index: 100;
     width: 1.75rem;
 }
 
@@ -316,13 +337,45 @@ input[type=range]::slider-thumb {
     min-width: 20rem;
 }
 
+#wheatley_row_gen_box_inner {
+    padding: 5px; 
+    border: 1px solid;
+    border-top: none;
+    border-bottom-right-radius: 0.25rem;
+    border-bottom-left-radius: 0.25rem;
+}
+
+#wheatley_method_suggestion_box {
+    position: absolute;
+    display: inline-block;
+    z-index: 1;
+    width: 100%;
+    background-color: #ddd;
+    border-radius: 0.25rem;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+
+    a {
+        display: block;
+        overflow-x: hidden;
+        font-size: 0.8em;
+        margin: 0.1em 0.3em 0 0.3em;
+    }
+
+    a:not(:first-child) {
+        border-top: 1px solid #888;
+        padding-top: 0.25em;
+    }
+}
+
 #user_display_header.collapsed::after,
+#wheatley_header.collapsed::after,
 #chat_header.collapsed::after{
     content: '▸';
     font-size: 1.5rem;
 }
 
 #user_display_header::after,
+#wheatley_header::after,
 #chat_header::after{
     content: '▾';
     font-size: 1.5rem;
@@ -359,6 +412,7 @@ input[type=range]::slider-thumb {
         height: 30rem;
     }
     .help {
+        z-index: 3;
         width: 40rem;
     }
     #chatbox {
