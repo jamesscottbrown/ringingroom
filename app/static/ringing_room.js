@@ -569,7 +569,9 @@ $(document).ready(function() {
         // data in components should be a function, to maintain scope
         data: function() {
             return {
-                visible: true
+                visible: true,
+                cur_user_is_assigned: false,
+                assignment_message: ""
             };
         },
 
@@ -584,6 +586,22 @@ $(document).ready(function() {
 
         methods: {
             show() {
+                if (this.$root.$refs.users){
+                    const cur_user_bells = this.$root.$refs.users.cur_user_bells;
+                    if (cur_user_bells.length === 0){
+                        this.cur_user_is_assigned = false;
+                        this.assignment_message = "";
+                    } else if (cur_user_bells.length === 1) {
+                        this.cur_user_is_assigned = true;
+                        this.assignment_message = "bell " + cur_user_bells[0];
+                    } else if (cur_user_bells.length === 2) {
+                        this.cur_user_is_assigned = true;
+                        this.assignment_message = "bells " + cur_user_bells[0] + " and " + cur_user_bells[1];
+                    } else {
+                        this.cur_user_is_assigned = true;
+                        this.assignment_message = "bells " + cur_user_bells.slice(0,-1).join(", ") + " and " + cur_user_bells.slice(-1);
+                    }
+                }
                 this.visible = true;
             },
             hide() {
@@ -592,8 +610,12 @@ $(document).ready(function() {
         },
 
         template: `
-<h2 v-show="visible" v-if="!window.tower_parameters.listen_link && !window.tower_parameters.anonymous_user" id='focus_display'>
-    Click anywhere in Ringing Room to resume ringing.
+<h2 v-show="visible" v-if="!window.tower_parameters.listen_link && !window.tower_parameters.anonymous_user" id='focus_display' v-bind:class="{ assigned: this.cur_user_is_assigned }">
+    <p>Click anywhere in Ringing Room to resume ringing.</p>
+
+    <p v-if="this.cur_user_is_assigned">
+    You are assigned to <span v-html="this.assignment_message" />.
+    </p>
 </h2>
 `
     }); // end focus_display component
